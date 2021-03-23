@@ -33,13 +33,13 @@ public class WheelMonthPicker extends WheelPicker implements IWheelMonthPicker {
         List<String> monthNames = Arrays.asList(DateFormatSymbols.getInstance(Locale.US).getMonths());
         super.setData(monthNames);
 
-        mSelectedMonthPosition = Calendar.getInstance().get(Calendar.MONTH) + 1;
+        mSelectedMonthPosition = Calendar.getInstance().get(Calendar.MONTH);
         mSelectedMonth = monthNames.get(mSelectedMonthPosition);
         updateSelectedYear();
     }
 
     private void updateSelectedYear() {
-        setSelectedItemPosition(mSelectedMonthPosition - 1);
+        setSelectedItemPosition(mSelectedMonthPosition);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class WheelMonthPicker extends WheelPicker implements IWheelMonthPicker {
 
     @Override
     public void setSelectedMonth(int month) {
-        mSelectedMonthPosition = month;
+        mSelectedMonthPosition = month - 1;
         updateSelectedYear();
     }
 
