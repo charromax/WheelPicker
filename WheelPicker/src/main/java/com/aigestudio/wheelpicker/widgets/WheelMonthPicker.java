@@ -5,9 +5,11 @@ import android.util.AttributeSet;
 
 import com.aigestudio.wheelpicker.WheelPicker;
 
-import java.util.ArrayList;
+import java.text.DateFormatSymbols;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * 月份选择器
@@ -18,7 +20,8 @@ import java.util.List;
  * @version 1
  */
 public class WheelMonthPicker extends WheelPicker implements IWheelMonthPicker {
-    private int mSelectedMonth;
+    private String mSelectedMonth;
+    private int mSelectedMonthPosition;
 
     public WheelMonthPicker(Context context) {
         this(context, null);
@@ -27,17 +30,16 @@ public class WheelMonthPicker extends WheelPicker implements IWheelMonthPicker {
     public WheelMonthPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        List<Integer> data = new ArrayList<>();
-        for (int i = 1; i <= 12; i++)
-            data.add(i);
-        super.setData(data);
+        List<String> monthNames = Arrays.asList(DateFormatSymbols.getInstance(Locale.US).getMonths());
+        super.setData(monthNames);
 
-        mSelectedMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
+        mSelectedMonthPosition = Calendar.getInstance().get(Calendar.MONTH) + 1;
+        mSelectedMonth = monthNames.get(mSelectedMonthPosition);
         updateSelectedYear();
     }
 
     private void updateSelectedYear() {
-        setSelectedItemPosition(mSelectedMonth - 1);
+        setSelectedItemPosition(mSelectedMonthPosition - 1);
     }
 
     @Override
@@ -46,18 +48,18 @@ public class WheelMonthPicker extends WheelPicker implements IWheelMonthPicker {
     }
 
     @Override
-    public int getSelectedMonth() {
+    public String getSelectedMonth() {
         return mSelectedMonth;
     }
 
     @Override
     public void setSelectedMonth(int month) {
-        mSelectedMonth = month;
+        mSelectedMonthPosition = month;
         updateSelectedYear();
     }
 
     @Override
-    public int getCurrentMonth() {
-        return Integer.valueOf(String.valueOf(getData().get(getCurrentItemPosition())));
+    public String getCurrentMonth() {
+        return String.valueOf(getData().get(getCurrentItemPosition()));
     }
 }

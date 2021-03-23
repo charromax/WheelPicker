@@ -14,7 +14,7 @@ public interface IWheelMonthPicker {
      *
      * @return 选择的月份
      */
-    int getSelectedMonth();
+    String getSelectedMonth();
 
     /**
      * 设置月份选择器初始化时选择的月份
@@ -28,5 +28,5 @@ public interface IWheelMonthPicker {
      *
      * @return 当前选择的月份
      */
-    int getCurrentMonth();
+    String getCurrentMonth();
 }

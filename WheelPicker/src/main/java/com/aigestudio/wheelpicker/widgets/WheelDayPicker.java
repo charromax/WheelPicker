@@ -5,10 +5,13 @@ import android.util.AttributeSet;
 
 import com.aigestudio.wheelpicker.WheelPicker;
 
+import java.text.DateFormatSymbols;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -24,8 +27,10 @@ public class WheelDayPicker extends WheelPicker implements IWheelDayPicker {
 
     private Calendar mCalendar;
 
-    private int mYear, mMonth;
+    private int mYear, mMonthPosition;
+    private String mMonth;
     private int mSelectedDay;
+    List<String> monthNames = Arrays.asList(DateFormatSymbols.getInstance(Locale.US).getMonths());
 
     public WheelDayPicker(Context context) {
         this(context, null);
@@ -35,9 +40,9 @@ public class WheelDayPicker extends WheelPicker implements IWheelDayPicker {
         super(context, attrs);
 
         mCalendar = Calendar.getInstance();
-
         mYear = mCalendar.get(Calendar.YEAR);
-        mMonth = mCalendar.get(Calendar.MONTH);
+        mMonthPosition = mCalendar.get(Calendar.MONTH) + 1;
+        mMonth = monthNames.get(mMonthPosition);
 
         updateDays();
 
@@ -48,7 +53,7 @@ public class WheelDayPicker extends WheelPicker implements IWheelDayPicker {
 
     private void updateDays() {
         mCalendar.set(Calendar.YEAR, mYear);
-        mCalendar.set(Calendar.MONTH, mMonth);
+        mCalendar.set(Calendar.MONTH, mMonthPosition - 1);
 
         int days = mCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         List<Integer> data = DAYS.get(days);
@@ -89,7 +94,8 @@ public class WheelDayPicker extends WheelPicker implements IWheelDayPicker {
     @Override
     public void setYearAndMonth(int year, int month) {
         mYear = year;
-        mMonth = month - 1;
+        mMonthPosition = month - 1;
+        mMonth = monthNames.get(mMonthPosition);
         updateDays();
     }
 
@@ -105,13 +111,15 @@ public class WheelDayPicker extends WheelPicker implements IWheelDayPicker {
     }
 
     @Override
-    public int getMonth() {
+    public String getMonth() {
         return mMonth;
     }
 
     @Override
     public void setMonth(int month) {
-        mMonth = month - 1;
+
+        mMonthPosition = month - 1;
+        mMonth = monthNames.get(mMonthPosition);
         updateDays();
     }
 }

@@ -57,7 +57,7 @@ public interface IWheelDayPicker {
      *
      * @return 月份
      */
-    int getMonth();
+    String getMonth();
 
     /**
      * 设置月份
